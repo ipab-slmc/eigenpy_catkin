@@ -27,7 +27,7 @@ ExternalProject_Add_Step(eigenpy CopyToDevel
 if(IS_DIRECTORY ${CMAKE_INSTALL_PREFIX})
   message(STATUS "Compiling for install workspace (${CMAKE_INSTALL_PREFIX})")
   catkin_package(
-    INCLUDE_DIRS include/${PROJECT_NAME}
+    INCLUDE_DIRS include/${PROJECT_NAME} ${EIGEN3_INCLUDE_DIR}
     LIBRARIES ${PYTHON_LIBRARIES} eigenpy
   )
 else()
