@@ -13,7 +13,15 @@ ExternalProject_Add(eigenpy
   PATCH_COMMAND ""
   TEST_COMMAND ""
 
-  CMAKE_ARGS -DBUILD_UNIT_TESTS=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${CATKIN_DEVEL_PREFIX}
+  CMAKE_ARGS -DBUILD_UNIT_TESTS:BOOL=OFF -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=${PROJECT_BINARY_DIR}/install
+)
+ExternalProject_Add_Step(eigenpy CopyToDevel
+  COMMENT "Copying to devel"
+  COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/install/lib/libeigenpy.so ${CATKIN_DEVEL_PREFIX}/lib/
+  COMMAND ${CMAKE_COMMAND} -E make_directory ${CATKIN_DEVEL_PREFIX}/lib/python2.7/site-packages/
+  COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_BINARY_DIR}/install/lib/python2.7/site-packages/eigenpy.so ${CATKIN_DEVEL_PREFIX}/lib/python2.7/site-packages/
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_BINARY_DIR}/install/include/${PROJECT_NAME}/ ${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME}/
+  DEPENDEES install
 )
 
 if(IS_DIRECTORY ${CMAKE_INSTALL_PREFIX})
@@ -34,10 +42,6 @@ endif()
 install(
   DIRECTORY ${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-)
-install(
-  DIRECTORY ${CATKIN_DEVEL_PREFIX}/share/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 install(
   FILES ${CATKIN_DEVEL_PREFIX}/lib/libeigenpy.so
