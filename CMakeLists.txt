@@ -17,13 +17,13 @@ ExternalProject_Add(eigenpy
 )
 
 if(IS_DIRECTORY ${CMAKE_INSTALL_PREFIX})
-  message(WARNING "Compiling for install workspace (${CMAKE_INSTALL_PREFIX})")
+  message(STATUS "Compiling for install workspace (${CMAKE_INSTALL_PREFIX})")
   catkin_package(
     INCLUDE_DIRS include/${PROJECT_NAME}
     LIBRARIES ${PYTHON_LIBRARIES} eigenpy
   )
 else()
-  message(WARNING "Compiling for devel workspace")
+  message(STATUS "Compiling for devel workspace")
   file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME})
   catkin_package(
     INCLUDE_DIRS ${CATKIN_DEVEL_PREFIX}/include ${EIGEN3_INCLUDE_DIR}
@@ -40,6 +40,11 @@ install(
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 install(
-  DIRECTORY ${CATKIN_DEVEL_PREFIX}/lib/
+  FILES ${CATKIN_DEVEL_PREFIX}/lib/libeigenpy.so
   DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 )
+install(
+  FILES ${CATKIN_DEVEL_PREFIX}/lib/python2.7/site-packages/eigenpy.so
+  DESTINATION ${CATKIN_PACKAGE_PYTHON_DESTINATION}
+)
+
