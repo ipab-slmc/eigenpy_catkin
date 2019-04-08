@@ -7,7 +7,7 @@ include(ExternalProject)
 
 ExternalProject_Add(eigenpy
   GIT_REPOSITORY "https://github.com/stack-of-tasks/eigenpy.git"
-  GIT_TAG "v1.5.0"
+  GIT_TAG "b33a854f366477cd0a815b170937ef56cb1abee2"
 
   UPDATE_COMMAND ""
   PATCH_COMMAND ""
